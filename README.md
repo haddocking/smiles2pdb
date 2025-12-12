@@ -33,6 +33,11 @@ smiles2pdb "Cc1c(nc2ccc(F)cc2c1C(O)=O)c3ccc(cc3)c4ccccc4" 1D3G_BRE.pdb 10
 The resulting `1D3G_BRE.pdb` will be a _multi-model_ ensemble containing 10
 different conformations.
 
+## TODO
+
+- Tune RMSD cutoff between conformations
+- Add support for [`SELFIES`](https://github.com/aspuru-guzik-group/selfies)
+
 ## Compilation
 
 Compiling this tool as a static binary is non-trivial since it requires several
