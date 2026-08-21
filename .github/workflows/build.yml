@@ -1,0 +1,35 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build image
+        run: docker build -t builder .
+
+      - name: extract compiled binary (per README)
+        run: |
+          docker run \
+            --rm \
+            -u $(id -u):$(id -g) \
+            -v $(pwd):/output \
+            builder \
+            cp /app/build/smiles2pdb /output/
+
+      - name: execute
+        run: |
+          chmod +x ./smiles2pdb
+          ./smiles2pdb || true  # bare call exits 1, only prints usage
+
+      - name: cat example
+        run: |
+          ./smiles2pdb "Cc1c(nc2ccc(F)cc2c1C(O)=O)c3ccc(cc3)c4ccccc4" 1D3G_BRE.pdb 10
+          cat 1D3G_BRE.pdb
