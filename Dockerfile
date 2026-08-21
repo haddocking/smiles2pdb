@@ -57,7 +57,8 @@ RUN cmake .. && make -j"$(nproc)"
 
 #-------------------------------------------------------#
 # Verify the binary is fully static
-RUN ldd /app/build/smiles2pdb && \
+RUN (ldd /app/build/smiles2pdb || true) && \
+  file /app/build/smiles2pdb | grep -q "statically linked" && \
   file /app/build/smiles2pdb && \
   ls -lh /app/build/smiles2pdb
 
